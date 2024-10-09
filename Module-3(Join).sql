@@ -27,6 +27,68 @@ from financials;
 
 -- select distinct unit from financials;
 
+-- Inner Join-- Only Common rows will come from two tables
+-- Left Join -- All the rows from left table and additionally
+-- those rows from right table that got matched
+
+-- Right Join -- All the rows from right table and additionally
+-- those rows from left table that got matched
+
+-- outer join : Combination of left table and right table without matching
+
+-- left , right anti join : showing one table clippimg the matching row
+-- Join operates when two table have at least one common column
+
+-- Questions
+-- I want to see all the movies information and their revenues
+select * from movies;
+select * from financials;
+select movies.movie_id,title,imdb_rating,financials.revenue from movies 
+join financials on financials.movie_id=movies.movie_id;
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+join financials as f on f.movie_id=m.movie_id;
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+left join financials as f on f.movie_id=m.movie_id;
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+right join financials as f on f.movie_id=m.movie_id;
+
+-- Full join -- like Append in Power Query
+-- Using UNION(Returning Unique rows) , UNION ALL : Showing Duplicate Row  which exist in both table
+-- Two tables must have same numbers of columns with having same name
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+left join financials as f on f.movie_id=m.movie_id
+
+UNION
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+right join financials as f on f.movie_id=m.movie_id;
+
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+left join financials as f on f.movie_id=m.movie_id
+
+UNION All
+
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+right join financials as f on f.movie_id=m.movie_id;
+
+
+-- Using () more intelligent function
+select m.movie_id,title,imdb_rating,f.revenue from movies as m
+join financials as f using(movie_id);
+
+-- CROSS JOIN (Curtesian Multiplication) 
+-- No need matching Column
+
+
+
+
+
+
 
  
  
