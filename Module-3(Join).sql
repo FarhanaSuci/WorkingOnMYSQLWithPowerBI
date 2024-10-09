@@ -84,6 +84,25 @@ join financials as f using(movie_id);
 -- CROSS JOIN (Curtesian Multiplication) 
 -- No need matching Column
 
+use food_db;
+select * from items;
+select * from variants;
+select name,price,variant_name,variant_price 
+from items
+cross join variants;
+
+select name,price,variant_name,variant_price,
+concat(name," ",variant_name)  as Dish_Name,
+price + variant_price as Total_price
+from items
+cross join variants;
+
+select 
+concat(name," ",variant_name)  as Dish_Name,
+price + variant_price as Total_price
+from items
+cross join variants;
+
 
 
 
