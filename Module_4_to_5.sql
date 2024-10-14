@@ -19,7 +19,7 @@ join actors as a on a.actor_id = ma.actor_id;
 select m.movie_id,title,
 group_concat(a.name separator ", ") as Actors
 from movies as m
-left join movie_actor as ma on m.movie_id=ma.movie_id
+left join movie_actor as ma on m.movie_id=ma.movie_id -- Here movie actor is a bridge table
 join actors as a on a.actor_id = ma.actor_id
 group by m.movie_id;
 
@@ -27,4 +27,43 @@ group by m.movie_id;
 -- Find all movies for a actor
 
 -- Sub queries
+
+-- What is the highest imdb rating movie?
+select movie_id,title,imdb_rating from movies
+order by imdb_rating desc
+limit 1;
+
+-- We cannot use aggregate function without group by clause
+
+select max(imdb_rating) from movies;
+
+select movie_id,title,imdb_rating from movies
+where imdb_rating = (select max(imdb_rating) from movies); -- outer Query(inner Query)
+
+-- What is the lowest imdb rating movie?
+
+select movie_id,title,imdb_rating from movies
+where imdb_rating = (select min(imdb_rating) from movies) ;
+
+-- I want to see the movies with highest imdb rating and lowest imdb rating
+select movie_id,title,imdb_rating from movies
+where imdb_rating = (select max(imdb_rating) from movies)
+
+union 
+
+select movie_id,title,imdb_rating from movies
+where imdb_rating = (select min(imdb_rating) from movies) ;
+
+-- I want to see all the actors who are aged between 70 and 85
+select * ,(year(curdate())-birth_year) as Age from actors
+having age between 70 and 85; -- where always search from table.So, here we use having
+
+select * from (select * ,(year(curdate())-birth_year) as Age 
+from actors) as ActorWithAge
+where age between 70 and 85;
+
+select * from (select * ,(year(curdate())-birth_year) as Age 
+from actors) as ActorWithAge;
+
+
 
